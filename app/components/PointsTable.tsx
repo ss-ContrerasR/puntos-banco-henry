@@ -21,13 +21,13 @@ async function PointsList() {
 
   if (error) {
     console.error("Error fetching points:", error.message);
-    return <p>Error loading points.</p>;
+    return <p>Error cargando puntos.</p>;
   }
 
   const points = (data ?? []) as Point[];
 
   if (points.length === 0) {
-    return <p className="p-4">No points registered yet.</p>;
+    return <p className="p-4">No hay puntos registrados aún.</p>;
   }
 
   return (
@@ -76,11 +76,11 @@ async function PointsList() {
       <table className="w-full text-left">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-3">Client</th>
-            <th className="p-3">Indicator</th>
-            <th className="p-3">Description</th>
-            <th className="p-3">Points</th>
-            <th className="p-3">Date</th>
+            <th className="p-3">Clientes</th>
+            <th className="p-3">Indicadores</th>
+            <th className="p-3">Descripción</th>
+            <th className="p-3">Puntos</th>
+            <th className="p-3">Fecha</th>
           </tr>
         </thead>
 
