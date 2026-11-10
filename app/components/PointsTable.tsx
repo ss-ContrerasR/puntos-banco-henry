@@ -26,88 +26,72 @@ async function PointsList() {
 
   const points = (data ?? []) as Point[];
 
-  if (points.length === 0) {
-    return <p className="p-4">No hay puntos registrados aún.</p>;
-  }
+  // Calculate the total points
+  const totalPoints = points.reduce(
+    (total, point) => total + Number(point.points),
+    0
+  );
 
   return (
-    <div className="overflow-x-auto rounded-xl border">
-      {/* Form */}
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 p-3 border-b">
-        <input
-          type="text"
-          placeholder="Add client..."
-          className="w-full p-3 border-2 rounded-2xl"
-        />
+    <div className="space-y-6">
 
-        <select
-          defaultValue=""
-          className="w-full p-3 border-2 rounded-2xl"
-        >
-          <option value="" disabled>
-            Select indicator
-          </option>
-          <option value="Sales">Sales</option>
-          <option value="Quality">Quality</option>
-          <option value="Productivity">Productivity</option>
-        </select>
+      {/* Total points card */}
+      <div className="rounded-2xl border bg-white p-6 shadow-sm">
+        <p className="text-sm font-medium text-gray-500">
+          Puntos totales
+        </p>
 
-        <input
-          type="text"
-          placeholder="Add description..."
-          className="w-full p-3 border-2 rounded-2xl"
-        />
+        <h2 className="mt-2 text-4xl font-bold text-blue-600">
+          {totalPoints.toLocaleString("es-CO", {
+            maximumFractionDigits: 2,
+          })}
+        </h2>
+      </div>
 
-        <input
-          type="number"
-          placeholder="Total points..."
-          className="w-full p-3 border-2 rounded-2xl"
-        />
+      {points.length === 0 ? (
+        <p className="p-4 text-gray-500">
+          No hay puntos registrados aún.
+        </p>
+      ) : (
+        /* Points table */
+        <div className="overflow-x-auto rounded-xl border">
+          <table className="w-full text-left">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-3">Clientes</th>
+                <th className="p-3">Indicadores</th>
+                <th className="p-3">Descripción</th>
+                <th className="p-3">Puntos</th>
+                <th className="p-3">Fecha</th>
+              </tr>
+            </thead>
 
-        <button
-          type="button"
-          className="w-full p-3 bg-blue-500 text-white rounded-2xl hover:bg-blue-600"
-        >
-          Add
-        </button>
-      </div> */}
+            <tbody>
+              {points.map((point) => (
+                <tr key={point.id} className="border-t">
+                  <td className="p-3">{point.name}</td>
 
-      {/* Points table */}
-      <table className="w-full text-left">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="p-3">Clientes</th>
-            <th className="p-3">Indicadores</th>
-            <th className="p-3">Descripción</th>
-            <th className="p-3">Puntos</th>
-            <th className="p-3">Fecha</th>
-          </tr>
-        </thead>
+                  <td className="p-3">
+                    {point.indicator?.join(", ") ?? "-"}
+                  </td>
 
-        <tbody>
-          {points.map((point) => (
-            <tr key={point.id} className="border-t">
-              <td className="p-3">{point.name}</td>
+                  <td className="p-3">
+                    {point.description ?? "-"}
+                  </td>
 
-              <td className="p-3">
-                {point.indicator?.join(", ") ?? "-"}
-              </td>
+                  <td className="p-3 font-semibold">
+                    {point.points}
+                  </td>
 
-              <td className="p-3">
-                {point.description ?? "-"}
-              </td>
-
-              <td className="p-3 font-semibold">
-                {point.points}
-              </td>
-
-              <td className="p-3">
-                {new Date(point.created_at).toLocaleDateString("en-US")}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <td className="p-3">
+                    {new Date(point.created_at).toLocaleDateString("es-CO")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
